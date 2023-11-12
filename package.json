@@ -1,0 +1,57 @@
+{
+	"name": "medium-markdown-downloader",
+	"version": "0.0.1",
+	"author": "tegain",
+	"description": "Medium Markdown Downloader",
+	"main": "build/main.js",
+	"homepage": "https://github.com/tegain/medium-markdown-downloader",
+	"engines": {
+		"node": ">=20.x"
+	},
+	"packageManager": "^pnpm@8.3.0",
+	"scripts": {
+		"start": "node --env-file .env build/main.js",
+		"start:watch": "cross-env NODE_ENV='development' nodemon --exec ts-node src/main.ts",
+		"clean": "rimraf coverage build tmp",
+		"lint": "eslint . --ext .ts",
+		"prettier": "prettier --config .prettierrc --write ./src",
+		"prebuild": "npm run lint",
+		"build": "tsc -p tsconfig.json && tsconfig-replace-paths -p tsconfig.json",
+		"build:release": "npm run clean && tsc -p tsconfig.release.json && tsconfig-replace-paths -p tsconfig.json",
+		"test": "jest",
+		"test:watch": "jest --watch"
+	},
+	"keywords": [
+		"medium",
+		"markdown",
+		"download",
+		"node"
+	],
+	"license": "MIT",
+	"devDependencies": {
+		"@types/glob": "^8.1.0",
+		"@types/jest": "^29.5.5",
+		"@types/node": "^20.8.3",
+		"@typescript-eslint/eslint-plugin": "^6.7.4",
+		"@typescript-eslint/parser": "^6.7.4",
+		"cross-env": "^7.0.3",
+		"eslint": "^8.51.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-plugin-jest": "^27.4.2",
+		"jest": "^29.7.0",
+		"nodemon": "^3.0.1",
+		"prettier": "^3.0.3",
+		"rimraf": "^5.0.5",
+		"ts-jest": "^29.1.1",
+		"ts-node": "^10.9.1",
+		"ts-node-dev": "^2.0.0",
+		"tsconfig-replace-paths": "^0.0.14",
+		"tsutils": "^3.21.0",
+		"typescript": "^5.2.2"
+	},
+	"dependencies": {
+		"commander": "^11.1.0",
+		"glob": "^10.3.10",
+		"node-html-parser": "^6.1.11"
+	}
+}
