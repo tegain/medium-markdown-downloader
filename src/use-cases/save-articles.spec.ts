@@ -60,6 +60,22 @@ describe('UseCase: Saving articles', () => {
 			})
 		})
 
+		describe('And user wishes to save only a limited amount of articles', () => {
+			it('retrieves articles metadata and saves limited articles', async () => {
+				parser = new IdsParser()
+				useCase = new SaveMediumArticles({ parser, httpClient, saver })
+
+				httpClient.withArticlesItems(seedFakeArticleItems()).withArticlesMetadata(seedFakeArticleMetadata())
+				const userInput = 'f7z2opiui9,q5f2vnxz54,wg8of2ipyp'
+				const maxArticles = 1
+				const outputDirectory = '/articles/saved'
+				await useCase.save({ input: userInput, outputDirectory, maxArticles })
+				expect(saver.getFilesEntries()).toEqual([
+					['/articles/saved/intro-to-springboot3.md', '# Intro to SpringBoot3 with Kotlin: Part 2 -Controllers & Routing']
+				])
+			})
+		})
+
 		describe('And one request fails', () => {
 			it('saves successful articles and logs errors', async () => {
 				parser = new IdsParser()

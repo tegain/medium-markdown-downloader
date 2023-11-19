@@ -5,10 +5,12 @@ import type { Saver } from '@core/saver'
 import path from 'path'
 import type { Nullable } from '../types'
 import { slugify } from '../utils/slugify'
+import { take } from '../utils/take'
 
 interface SaveArticlesOptions {
 	input: string
 	outputDirectory: string
+	maxArticles?: number
 }
 
 interface UseCaseParams {
@@ -28,12 +30,13 @@ export class SaveMediumArticles {
 		this.saver = saver
 	}
 
-	async save({ input, outputDirectory }: SaveArticlesOptions): Promise<void> {
+	async save({ input, outputDirectory, maxArticles }: SaveArticlesOptions): Promise<void> {
 		try {
 			const articles = await this.parser.parseUserInput(input)
-			console.info(`Found ${articles.length} article(s).`)
+			const maxAllowedArticles = take(articles, maxArticles || articles.length)
+			console.info(`Found ${maxAllowedArticles.length} article(s).`)
 
-			const promises = articles.map((article) => this.saveArticle(article, outputDirectory))
+			const promises = maxAllowedArticles.map((article) => this.saveArticle(article, outputDirectory))
 			await Promise.allSettled(promises).then((result) => this.logResult(result))
 		} catch (e) {
 			console.error(e)

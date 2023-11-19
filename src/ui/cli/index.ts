@@ -16,6 +16,7 @@ program
 	.description('Download Medium articles locally in Markdown from HTML bookmarks')
 	.requiredOption('-i, --input  <string>', 'Path to folder containing bookmarks HTML files')
 	.option('-o, --output <string>', 'Path to destination folder (default: current directory)', '.')
+	.option('-m, --max <number>', 'Maximum amount of articles to save', '0')
 	.action(async (options) => {
 		const useCase = new SaveMediumArticles({
 			parser: new HtmlParser(),
@@ -24,7 +25,8 @@ program
 		})
 		await useCase.save({
 			input: options.input,
-			outputDirectory: options.output
+			outputDirectory: options.output,
+			maxArticles: options.max
 		})
 	})
 
@@ -33,6 +35,7 @@ program
 	.description('Download Medium articles locally in Markdown from a list of URLs in JSON file')
 	.requiredOption('-i, --input  <string>', 'Path to JSON file')
 	.option('-o, --output <string>', 'Path to destination folder (default: current directory)', '.')
+	.option('-m, --max <number>', 'Maximum amount of articles to save', '0')
 	.action(async (options) => {
 		const useCase = new SaveMediumArticles({
 			parser: new JsonParser(),
@@ -41,7 +44,8 @@ program
 		})
 		await useCase.save({
 			input: options.input,
-			outputDirectory: options.output
+			outputDirectory: options.output,
+			maxArticles: options.max
 		})
 	})
 
@@ -50,6 +54,7 @@ program
 	.description('Download Medium articles locally in Markdown from a list of articles IDs')
 	.requiredOption('-i, --input <string>', 'List of articles IDs')
 	.option('-o, --output <string>', 'Path to destination folder (default: current directory)', '.')
+	.option('-m, --max <number>', 'Maximum amount of articles to save', '0')
 	.action(async (options) => {
 		const useCase = new SaveMediumArticles({
 			parser: new IdsParser(),
@@ -58,7 +63,8 @@ program
 		})
 		await useCase.save({
 			input: options.input,
-			outputDirectory: options.output
+			outputDirectory: options.output,
+			maxArticles: options.max
 		})
 	})
 
@@ -67,6 +73,7 @@ program
 	.description('Download Medium articles locally in Markdown from a reading list ID')
 	.requiredOption('-i, --input <string>', 'Reading list ID')
 	.option('-o, --output <string>', 'Path to destination folder (default: current directory)', '.')
+	.option('-m, --max <number>', 'Maximum amount of articles to save', '0')
 	.action(async (options) => {
 		const httpClient = new ApiHttpClient()
 		const useCase = new SaveMediumArticles({
@@ -76,7 +83,8 @@ program
 		})
 		await useCase.save({
 			input: options.input,
-			outputDirectory: options.output
+			outputDirectory: options.output,
+			maxArticles: options.max
 		})
 	})
 
